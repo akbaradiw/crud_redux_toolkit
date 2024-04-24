@@ -1,14 +1,11 @@
-import Form from "react-bootstrap/Form";
 import React from "react";
-import Button from "react-bootstrap/Button";
+import {Button, Card, Alert} from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost, deletePost, editPost } from "../redux/features/addtoSlice";
 import "./style.css";
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { toast } from "react-toastify";
+
 
 const FormComp = () => {
   const [note, setNote] = useState("");

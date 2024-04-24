@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+ 
 
 export const addtoSlice = createSlice({
     name: "addto",
@@ -11,6 +12,7 @@ export const addtoSlice = createSlice({
         },
         deletePost: (state, action) => {
             state.items = state.items.filter((item) => item.id !== action.payload)
+            alert("Note Deleted")
         },
         editPost : (state, action) => {
             state.items.map((item) => {
@@ -18,6 +20,7 @@ export const addtoSlice = createSlice({
                     item.note = action.payload.note
                 }
             })
+            alert("Note Edited")
         }
     }
 })
