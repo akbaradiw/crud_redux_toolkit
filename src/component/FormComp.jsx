@@ -4,43 +4,99 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost, deletePost, editPost } from "../redux/features/addtoSlice";
-const FormComp = () => {
-const [note, setNote] = useState("")
-const [edit, setEdit] = useState(false)
-const [editNote, setEditNote] = useState("")
-const [id, setId] = useState(null)
-const dispatch = useDispatch()
-const addto = useSelector((state) => state.addto.items)
+import "./style.css";
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
+const FormComp = () => {
+  const [note, setNote] = useState("");
+  const [edit, setEdit] = useState(false);
+  const [editNote, setEditNote] = useState("");
+  const [id, setId] = useState(null);
+  const dispatch = useDispatch();
+  const addto = useSelector((state) => state.addto.items);
 
   return (
     <div>
-   <Form>
-      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Control type="email" placeholder="name@example.com"
-         onChange={(e) => setNote(e.target.value)} value={note} />
-      </Form.Group>
-    </Form>
-    <Button onClick={()=> dispatch (addPost({id: addto.length + 1, note}))} variant="primary" >Add</Button>
+      <div className="form">
+        <input
+          className="input-note"
+          type="text"
+          placeholder="Add Your Note"
+          onChange={(e) => setNote(e.target.value)}
+          value={note}
+        />
 
-    <div>
-      {addto.length > 0 ? addto.map((addto) => {
-        return (
-          <div key={addto.id}>
-            <h1>{addto.note}</h1>
-            <Button onClick={() => dispatch(deletePost(addto.id))} variant="primary" >Delete</Button>
-            <Button onClick = {() => {setEdit(true),  setId(addto.id)}} variant="primary" >Edit</Button>
-            {edit && id === addto.id && (
-              <div>
-                <input type="text" placeholder="edit"
-                onChange={(e) => setEditNote(e.target.value)} value={editNote}/>
-                <button onClick={() => dispatch(editPost({id: addto.id, note: editNote}))(setEdit(false)) } >save</button>
-              </div>
-            )}
-          </div> 
-        );
-      }): "there is no post"}
-    </div>
+        <Button
+          className="ms-5"
+          onClick={() => dispatch(addPost({ id: addto.length + 1, note }))}
+          variant="dark"
+        >
+          Add
+        </Button>
+      </div>
+
+      <div className="col-result">
+        { addto.map((addto) => {
+              return (
+                <div className="result" key={addto.id}>
+                  <Card className="card">
+                    <h6>{addto.note}</h6>
+                    <div className="button">
+                      <Button className="me-3 "
+                        // className="button-del"
+                        onClick={() => dispatch(deletePost(addto.id))}
+                        variant="secondary"
+                        size="sm"
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        // className="button-edit"
+                        onClick={() => {
+                          setEdit(true), setId(addto.id);
+                        }}
+                        variant="secondary"
+                        size="sm"
+
+                      >
+                        Edit
+                      </Button>
+                    </div>
+                    <div className="edit-form">
+                      {edit && id === addto.id && (
+                        <div>
+                          <input
+                            type="text"
+                            placeholder="Edit Your Note"
+                            onChange={(e) => setEditNote(e.target.value)}
+                            value={editNote}
+                            className="input-edit"
+                          />
+                          <Button
+                            // className="button-fix-edit"
+                            variant="outline-secondary"
+                            size="sm"
+                            className="ms-2"
+                            onClick={() =>
+                              dispatch(
+                                editPost({ id: addto.id, note: editNote })
+                              )(setEdit(false))
+                            }
+                          >
+                            save
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </Card>
+                </div>
+              );
+            })
+          }
+      </div>
     </div>
   );
 };
