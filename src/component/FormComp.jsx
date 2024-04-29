@@ -21,7 +21,7 @@ const FormComp = () => {
         <input
           id="input-note"
           type="text"
-          placeholder="Add Your Notes"
+          placeholder="Add Your Note"
           onChange={(e) => setNote(e.target.value)}
           value={note}
           className="border-2 border-amber-200 bg-amber-300 shadow-sm"
