@@ -2,7 +2,9 @@ import React from "react";
 const Navbar = () => {
   return (
     <div>
+       
       <div className="bg-amber-300 p-3 flex justify-center gap-3 ">
+ 
         <svg
           className="w-9 h-8"
           xmlns="http://www.w3.org/2000/svg"
