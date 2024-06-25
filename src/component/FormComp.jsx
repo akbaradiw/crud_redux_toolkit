@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost, deletePost, editPost } from "../redux/features/addtoSlice";
-import Navbar from "./Navbar";
 import "./style.css";
 
 const FormComp = () => {
@@ -16,7 +15,6 @@ const FormComp = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="form">
         <input
           id="input-note"
@@ -41,9 +39,9 @@ const FormComp = () => {
           return (
             <div className="result" key={addto.id}>
               <motion.div
-                initial={{ opacity: 0, x: -50, y: -90 }}
-                animate={{ opacity: 1, x: 3, y: 0 }}
-                transition={{ duration: 2, ease: "easeInOut" }}
+                initial={{ opacity: 0, x: 50, y: -90 }}
+                animate={{ opacity: 1, x: 13, y: 20 }}
+                transition={{ duration: 1, ease: "easeInOut" }}
               >
                 <div
                   id="card"
