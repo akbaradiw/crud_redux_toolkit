@@ -1,13 +1,11 @@
 import React from 'react'
-import FormComp from '../component/FormComp'
-import Navbar from '../component/Navbar'
 import Note from '../component/Note'
+import Header from '../component/Header'
 const Home = () => {
 
     return (
         <div>
-            <Navbar />
-            {/* <FormComp /> */}
+            <Header />
             <Note />
         </div>
     )

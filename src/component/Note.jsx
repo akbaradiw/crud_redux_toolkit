@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost, deletePost, editPost } from "../redux/features/addtoSlice";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { IoMdAddCircle } from "react-icons/io";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 const Note = () => {
   const [note, setNote] = useState("");
   const [edit, setEdit] = useState(false);
@@ -9,83 +14,86 @@ const Note = () => {
   const dispatch = useDispatch();
   const addto = useSelector((state) => state.addto.items);
 
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
-    <div className="grid grid-cols-2 pt-10">
-      <div className="grid ps-60 ">
-        <div className="absolute">
-          <input
-            type="text"
-            placeholder="Add Your Note"
-            onChange={(e) => setNote(e.target.value)}
-            value={note}
-            className="w-96 h-10 border-2  ps-2 border-amber-200 bg-amber-300 shadow-sm"
-          />
-        </div>
-        <div className="pt-14 px-40">
-          <svg
-            className="w-6 h-6 absolute  ms-3 cursor-pointer hover:scale-110  duration-300 "
-            onClick={() => dispatch(addPost({ id: addto.length + 1, note }))}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-          >
-            <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-          </svg>
-        </div>
+    <div className=" pt-4">
+      <div className="flex justify-center md:px-10 lg:px-40">
+        <input
+          type="text"
+          placeholder="Add Your Note"
+          onChange={(e) => setNote(e.target.value)}
+          value={note}
+          className="lg:w-full md:w-full  w-80 h-10 rounded-md text-white border-none outline-none  ps-2  bg-stone-700 shadow-sm"
+        />
       </div>
-      <div className="pe-20">
+      <div className="pt-3 pb-2 flex  justify-center ">
+        <IoMdAddCircle
+          className="w-8 h-8 text-teal-400  absolute  ms-3 cursor-pointer hover:scale-110  duration-300 "
+          onClick={() => dispatch(addPost({ id: addto.length + 1, note }))}
+        />
+      </div>
+      <div className="lg:px-80 px-6 pt-10">
         {addto.map((addto) => {
           return (
-            <div className="grid grid-cols-2 p-3 mb-4 border-3 rounded-lg border-amber-400 shadow-sm hover:shadow-lg hover:shadow-amber-200" key={addto.id}>       
-                <h1 className="font-semibold">{addto.note}</h1>
-                <div className="grid grid-cols-2">
-                  <svg
-                    className="w-6 h-6   cursor-pointer hover:scale-110 duration-300"
-                    onClick={() => dispatch(deletePost(addto.id))}
-                    id="delete"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 448 512"
-                  >
-                    <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
-                  </svg>
-
-                  <svg
-                    onClick={() => {
-                      setEdit(true), setId(addto.id);
-                    }}
-                    className="w-6 h-6 cursor-pointer hover:scale-110 duration-300"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                  >
-                    <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
-                  </svg>
-                </div>
-                <div>
-                  {edit && id === addto.id && (
-                    <div>
-                      <input
-                        id="input-edit"
-                        type="text"
-                        placeholder="Edit Your Note"
-                        onChange={(e) => setEditNote(e.target.value)}
-                        value={editNote}
-                        className="border-2 rounded-lg border-amber-400 ps-2 hover:scale-110 duration-300"
-                      />
-                      <div id="button-save">
-                        <button
-                          className="border-2 ms-2 py-1 px-1 rounded-lg border-amber-400 hover:scale-110 duration-300  font-bold"
-                          onClick={() =>
-                            dispatch(
-                              editPost({ id: addto.id, note: editNote })
-                            )(setEdit(false))
-                          }
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
+            <div
+              style={{ backgroundColor: addto.c }}
+              className="grid grid-cols-2 p-3 text-white bg-stone-700  mb-4 border-2 rounded-lg border-none shadow-md "
+              key={addto.id}
+              data-aos="fade-right"
+              data-aos-duration="500"
+            >
+              <h1 className="font-semibold">{addto.note}</h1>
+              <div className="flex lg:gap-4 gap-2 lg:pe-2 justify-end">
+                <MdDelete
+                  className="lg:w-8 lg:h-8 w-6 h-6 text-red-500 cursor-pointer hover:scale-110 duration-300"
+                  onClick={() => dispatch(deletePost(addto.id))}
+                />
+                <MdEdit
+                  onClick={() => {
+                    setEdit(true), setId(addto.id);
+                  }}
+                  className="lg:w-8 lg:h-8 w-6 h-6 text-blue-500  cursor-pointer hover:scale-110 duration-300"
+                />
               </div>
+              {edit && id === addto.id && (
+                <div className="fixed inset-0  bg-gray-800 bg-opacity-75 flex items-center justify-center">
+                  <div
+                    className="bg-white p-4 mb-12  rounded-lg shadow-lg max-w-md w-80 lg:w-full"
+                    data-aos="fade-down"
+                    data-aos-duration="500"
+                    s
+                  >
+                    <input
+                      type="text"
+                      placeholder="Edit Your Note"
+                      onChange={(e) => setEditNote(e.target.value)}
+                      value={editNote}
+                      className="w-full border-2 text-black rounded-lg  ps-2 mb-4 "
+                    />
+                    <div className="flex justify-end gap-2">
+                      <button
+                        className="border-2 lg:py-1 lg:px-4 px-2 font-semibold rounded-lg text-black border-gray-300 hover:scale-105 duration-300"
+                        onClick={() => setEdit(false)} 
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="bg-teal-400 text-black font-semibold lg:py-1 lg:px-4 px-2 rounded-lg hover:bg-blue-600 duration-300"
+                        onClick={() => {
+                          dispatch(editPost({ id: addto.id, note: editNote }));
+                          setEdit(false); 
+                        }}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           );
         })}{" "}
       </div>
